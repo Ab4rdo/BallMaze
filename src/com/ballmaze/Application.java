@@ -13,8 +13,11 @@ public class Application extends JFrame{
 	private void init() {
 		
 		add(new Board());
-		setSize(100, 150);
+		setSize(400, 400);
 		setTitle("Ball Maze");
+		setResizable(false);
+		pack();
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 	}

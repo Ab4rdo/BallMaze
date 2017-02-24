@@ -19,7 +19,7 @@ public class Ball {
 	}
 	
 	private void initBall() {
-		ImageIcon ii = new ImageIcon("Photo");
+		ImageIcon ii = new ImageIcon("image//Ball.png");
 		img = ii.getImage();
 		x = 0;
 		y = 0;
