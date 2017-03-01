@@ -111,6 +111,7 @@ public class Board extends JPanel implements ActionListener{
 		
 		updateBall();
 		checkCollisions();
+		checkBorders();
 		
 		repaint();
 	}
@@ -140,7 +141,23 @@ public class Board extends JPanel implements ActionListener{
 			}
 		}
 	}
-	
+
+	public void checkBorders() {
+
+		if (ball.getX() <= 0 ) {
+			ball.setX(0);
+		}
+		if(ball.getX() >= 350) {
+			ball.setX(350);
+		}
+		if (ball.getY() <= 0 ) {
+			ball.setY(0);
+		}
+		if(ball.getY() >= 350) {
+			ball.setY(350);
+		}
+	}
+
 	private class TAdapter extends KeyAdapter {
 		
 		public void keyReleased(KeyEvent e){

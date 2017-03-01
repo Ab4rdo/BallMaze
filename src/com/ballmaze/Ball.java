@@ -56,6 +56,10 @@ public class Ball {
 	public void setY(int y) {
 		this.y = y;
 	}
+
+	public void setDX(int dx) { this.dx = dx;}
+
+	public void setDY(int dy) { this.dy = dy;}
 	
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, 50, 50);
