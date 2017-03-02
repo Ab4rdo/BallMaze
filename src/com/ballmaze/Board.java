@@ -25,6 +25,8 @@ public class Board extends JPanel implements ActionListener{
 	private Ball ball;
 	private ArrayList<Wall> walls;
 	private boolean inGame;
+	private boolean ifWon;
+	Rectangle winningField;
 	private Timer timer;
 	private final int DELAY = 10;
 	
@@ -45,9 +47,12 @@ public class Board extends JPanel implements ActionListener{
 		int h = backgroundImage.getHeight(this);
 		setPreferredSize(new Dimension(w,h));
 		inGame = true;
+		ifWon = false;
 	
 		ball = new Ball();
 		initWalls();
+		
+		winningField = new Rectangle(0, 330, 70, 70);
 		
 		timer = new Timer(DELAY, this);
 		timer.start();
@@ -69,9 +74,11 @@ public class Board extends JPanel implements ActionListener{
 		super.paintComponent(g);
 		g.drawImage(backgroundImage, 0, 0, null);
 		
-		if(inGame) {
+		if(inGame && !ifWon) {
 			drawWalls(g);
 			drawBall(g);
+		}else if(!inGame && ifWon){
+			drawGameWon(g);
 		} else {
 			drawGameOver(g);
 		}
@@ -105,19 +112,30 @@ public class Board extends JPanel implements ActionListener{
 	        		backgroundImage.getHeight(this) / 2);
 	}
 	
+	private void drawGameWon(Graphics g){
+		 String msg = "Game Won!";
+	     Font small = new Font("Helvetica", Font.BOLD, 20);
+	     FontMetrics fm = getFontMetrics(small);
+
+	        g.setColor(Color.WHITE);
+	        g.setFont(small);
+	        g.drawString(msg, (backgroundImage.getWidth(this) - fm.stringWidth(msg)) / 2,
+	        		backgroundImage.getHeight(this) / 2);
+	}
+	
 	public void actionPerformed(ActionEvent e) {
 		
 		inGame();
 		
 		updateBall();
 		checkCollisions();
+		checkIfWon();
 		checkBorders();
 		
 		repaint();
 	}
 	
 	private void inGame() {
-		
 		if(!inGame){
 			timer.stop();
 		}
@@ -130,7 +148,6 @@ public class Board extends JPanel implements ActionListener{
 	}
 	
 	public void checkCollisions() {
-		
 		Rectangle r3 = ball.getBounds();
 		
 		for(Wall w : walls){
@@ -140,6 +157,17 @@ public class Board extends JPanel implements ActionListener{
 				this.inGame = false;
 			}
 		}
+	}
+	
+	public void checkIfWon() {
+		Rectangle r3 = ball.getBounds();
+		
+		if(r3.intersects(winningField)){
+			ball.setVisible(false);
+			this.inGame = false;
+			this.ifWon = true;
+		}
+		
 	}
 
 	public void checkBorders() {
